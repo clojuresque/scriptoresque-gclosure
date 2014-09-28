@@ -1,0 +1,36 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "http://clojars.org/repo" }
+    }
+
+    dependencies {
+        classpath "de.kotka.gradle:gradle-plugin:1.3.0"
+    }
+}
+
+version = "0.1.0-SNAPSHOT"
+group   = "clojuresque"
+
+description = "A ClojureScript plugin for gradle (closure)"
+
+ext.kotka = [
+    repository:     "clojuresque/gclosure",
+    wrapperVersion: "2.1"
+]
+
+apply plugin: "kotka"
+apply plugin: "groovy"
+
+repositories {
+    jcenter()
+    maven { url "http://clojars.org/repo" }
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+
+    compile "clojuresque:clojuresque-common:1.1.0"
+    compile "de.kotka.gradle:gradle-utils:0.2.2"
+}

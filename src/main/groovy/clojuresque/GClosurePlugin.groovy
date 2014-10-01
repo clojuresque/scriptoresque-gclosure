@@ -16,13 +16,30 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.internal.project.ProjectInternal
 
+import clojuresque.tasks.GClosureCompile
 import clojuresque.tasks.GClosureSourceSet
 
 class GClosurePlugin implements Plugin<Project> {
     void apply(Project project) {
         project.apply plugin: "java-base"
 
+        configureConfigurations(project)
         configureSourceSets(project)
+        configureCompilation(project)
+    }
+
+    def private configureConfigurations(project) {
+        project.configurations {
+            gclosure {
+                transitive = false
+                visible = false
+                description = "Configuration for the closure compiler"
+            }
+        }
+
+        project.dependencies {
+            gclosure "com.google.javascript:closure-compiler:v20140625"
+        }
     }
 
     def private configureSourceSets(project) {
@@ -33,6 +50,13 @@ class GClosurePlugin implements Plugin<Project> {
             sourceSet.convention.plugins.gclosure = gclosureSourceSet
             sourceSet.gclosure.srcDir "src/${sourceSet.name}/gclosure"
             sourceSet.allSource.source gclosureSourceSet.gclosure
+        }
+    }
+
+    def private configureCompilation(project) {
+        project.task("gclosureCompile", type: GClosureCompile) {
+            delayedOutputDirectory = { new File(project.buildDir, "gclosure") }
+            description = "Compile all google closure source modules"
         }
     }
 }

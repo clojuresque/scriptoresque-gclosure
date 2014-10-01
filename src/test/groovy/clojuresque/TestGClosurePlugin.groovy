@@ -15,8 +15,18 @@ class TestGClosurePlugin extends Specification {
         project.sourceSets { a }
     }
 
+    def "the plugin sets up the gclosure configuration"() {
+        expect:
+        project.configurations.hasProperty("gclosure")
+    }
+
     def "the plugin sets up the source set conventions"() {
         expect:
         project.sourceSets.a.hasProperty("gclosure")
+    }
+
+    def "the plugin sets up the compilation task"() {
+        expect:
+        project.hasProperty("gclosureCompile")
     }
 }

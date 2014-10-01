@@ -15,7 +15,7 @@ group   = "clojuresque"
 description = "A ClojureScript plugin for gradle (closure)"
 
 ext.kotka = [
-    repository:     "clojuresque/gclosure",
+    repository:     "clojuresque/scriptoresque-gclosure",
     wrapperVersion: "2.1"
 ]
 
